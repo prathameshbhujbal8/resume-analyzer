@@ -46,9 +46,6 @@ if st.button("Analyze"):
         else:
             st.error(f"Match Score: {score}% (Low match)")
 
-        resume_words = set(resume_clean.split())
-        jd_words = set(jd_clean.split())
-
         matched_skills = []
         missing_skills = []
 
@@ -60,16 +57,17 @@ if st.button("Analyze"):
                     missing_skills.append(skill)
 
         st.subheader("✅ Matched Skills")
-        if matched_skills:
-            st.write(", ".join(matched_skills))
-        else:
-            st.write("No strong matches found")
+        st.write(", ".join(matched_skills) if matched_skills else "No strong matches found")
 
         st.subheader("❌ Missing Skills")
-        if missing_skills:
-            st.write(", ".join(missing_skills))
-        else:
-            st.write("No major missing skills")
+        st.write(", ".join(missing_skills) if missing_skills else "No major missing skills")
+
+        total_required = len(matched_skills) + len(missing_skills)
+
+        if total_required > 0:
+            skill_match_percent = round((len(matched_skills) / total_required) * 100, 2)
+            st.subheader("📊 Skill Match")
+            st.write(f"{len(matched_skills)}/{total_required} skills matched ({skill_match_percent}%)")
 
         st.subheader("💡 Suggestions")
 
